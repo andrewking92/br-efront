@@ -5,12 +5,12 @@ resource "mongodbatlas_database_user" "test" {
   auth_database_name = "admin"
 
   roles {
-    role_name     = "atlasAdmin"
-    database_name = "admin"
+    role_name        = var.role_name
+    database_name    = "admin"
   }
 
   labels {
-    key   = "username"
+    key = var.username
     value = var.username
   }
 
