@@ -43,7 +43,7 @@ module "application_network" {
 
 
 module "advanced_cluster" {
-  source = "../../modules/single_region_cluster"
+  source = "../../modules/multi_region_cluster"
 
   organization_id       = var.organization_id
   project_id            = var.project_id
