@@ -76,4 +76,5 @@ module "private_endpoint" {
   endpoint_name         = var.endpoint_name
 
   subnet_id             = module.application_network.azurerm_subnet_id
+
 }
