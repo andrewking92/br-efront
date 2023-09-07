@@ -1,6 +1,6 @@
 # Terraform Modules Repository
 
-This Git repository contains Terraform modules for managing infrastructure across different environments: POC (Proof of Concept), Dev (Development), UAT (User Acceptance Testing), and Prod (Production). These modules are designed to help you provision and manage resources in a consistent and repeatable manner across multiple environments.
+This Git repository contains Terraform modules for managing infrastructure across different environments: POC, Dev, UAT, and Prod. These modules are designed to help provision and manage resources in a consistent and repeatable manner across multiple environments.
 
 ## Table of Contents
 
@@ -15,19 +15,19 @@ This Git repository contains Terraform modules for managing infrastructure acros
 
 ### API Keys
 
-To access your MongoDB Atlas public and private key pairs, you can use the Atlas Admin API. Follow these steps:
+API Keys can be generated via the UI or Admin API. To do so via the UI, follow these steps:
 
-Retrieve your Atlas Organization API Key: Log in to your MongoDB Atlas account and navigate to "Organization Settings." Create an API key if you don't already have one.
+1. Navigate to the Organisation settings for org access, or Project settings to grant access to a specific project.
 
-Make an API Request: Use the API key to make a request to the Atlas Admin API endpoint to retrieve your public and private keys. Here's an example using curl:
+2. Go to Access Manager and follow the API Keys tab.
 
-curl -X GET "https://cloud.mongodb.com/api/atlas/v1.0/groups/GROUP_ID/clusters/CLUSTER_NAME/databaseUsers/adminPublicKey" -H "Content-Type: application/json" -H "Atlas-Auth: ORG_ID:API_KEY"
+3. Create an API key with the appropriate organisation or project level permissions.
 
-Replace GROUP_ID, CLUSTER_NAME, ORG_ID, and API_KEY with your specific values.
+4. Whitelist the IP address where the Terraform script will be run.
 
-Store the Keys Securely: Once you have retrieved the keys, store them securely as environment variables or in a secure location for use in your Terraform configurations.
+5. Store the Keys Securely: Once you have retrieved the keys, store them securely as environment variables or in a secure location for use in your Terraform configurations.
 
-2. **Required Environment Variables**: To authenticate and provision resources in your target environment, you need to set the following environment variables:
+6. **Required Environment Variables**: To authenticate and provision resources in your target environment, you need to set the following environment variables:
 
    ```sh
    export MONGODB_ATLAS_PUBLIC_KEY=<PUBLIC_KEY>
@@ -41,19 +41,18 @@ Store the Keys Securely: Once you have retrieved the keys, store them securely a
 
 Before you begin using these Terraform modules, ensure that you have the following prerequisites in place:
 
-1. **Terraform Installed**: Make sure you have Terraform installed on your local machine. You can download it from [Terraform's official website](https://www.terraform.io/downloads.html).
-
+1. Login via the Azure CLI and copy the id field from the response.
 
    ```sh
    az login
    
-   az account set --subscription "<>"
+   az account set --subscription "<subscription-id>"
    
-   az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<>"
+   az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription-id>"
    ```
 
 
-2. **Required Environment Variables**: To authenticate and provision resources in your target environment, you need to set the following environment variables:
+3. **Required Environment Variables**: To authenticate and provision resources in your target environment, you need to set the following environment variables:
 
    ```sh
    export ARM_CLIENT_ID=<APPID_VALUE>
