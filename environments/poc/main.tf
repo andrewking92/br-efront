@@ -110,5 +110,5 @@ module "application_vm" {
   location              = module.azure_setup.azurerm_resource_group_test_location
   public_key_file_path  = var.public_key_file_path
 
-  network_interface_id = module.application_network.azurerm_network_interface_id
+  network_interface_id  = module.application_network.azurerm_network_interface_id
 }
