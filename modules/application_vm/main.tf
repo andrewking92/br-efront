@@ -8,12 +8,12 @@ resource "azurerm_linux_virtual_machine" "test" {
   admin_username      = "adminuser"
 
   network_interface_ids = [
-    azurerm_network_interface.example.id,
+    var.network_interface_id,
   ]
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file(var.public_key_file_path)
   }
 
   os_disk {

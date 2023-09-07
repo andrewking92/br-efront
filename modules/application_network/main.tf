@@ -14,3 +14,15 @@ resource "azurerm_subnet" "test" {
   enforce_private_link_service_network_policies  = true
   enforce_private_link_endpoint_network_policies = true
 }
+
+resource "azurerm_network_interface" "test" {
+  name                = "endpoint-test"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.test.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}

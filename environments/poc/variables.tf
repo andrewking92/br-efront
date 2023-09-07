@@ -147,3 +147,13 @@ variable "search_analyzer" {
   description = "Atlas Search Index Search Analyzer"
   type        = string
 }
+
+variable "virtual_machine_name" {
+  description = "Azure VM Name"
+  type        = string
+}
+
+variable "public_key_file_path" {
+  description = "Azure Public Key File Path"
+  type        = string
+}

@@ -13,7 +13,12 @@ variable "location" {
   type        = string
 }
 
-variable "cluster_name" {
-  description = "Atlas Cluster Name"
+variable "public_key_file_path" {
+  description = "Azure Public Key File Path"
+  type        = string
+}
+
+variable "network_interface_id" {
+  description = "Azure Network Interface ID"
   type        = string
 }
