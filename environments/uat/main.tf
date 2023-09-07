@@ -43,7 +43,7 @@ module "application_network" {
 
 
 module "advanced_cluster" {
-  source = "../../modules/single_region_cluster"
+  source = "../../modules/multi_region_cluster"
 
   organization_id       = var.organization_id
   project_id            = var.project_id
@@ -57,6 +57,10 @@ module "advanced_cluster" {
   node_count            = var.node_count
   region_1              = var.region_1
   region_1_priority     = var.region_1_priority
+  region_2              = var.region_2
+  region_2_priority     = var.region_2_priority
+  region_3              = var.region_3
+  region_3_priority     = var.region_3_priority
 
 }
 
@@ -76,37 +80,5 @@ module "private_endpoint" {
   endpoint_name         = var.endpoint_name
 
   subnet_id             = module.application_network.azurerm_subnet_id
-
-}
-
-
-module "search_index" {
-  source = "../../modules/search_index"
-
-  organization_id       = var.organization_id
-  project_id            = var.project_id
-
-  search_index_name     = var.search_index_name
-  cluster_name          = var.cluster_name
-
-  analyzer              = var.analyzer
-  database_name         = var.database_name
-  collection_name       = var.collection_name
-
-  mappings_dynamic      = var.mappings_dynamic
-  search_analyzer       = var.search_analyzer
-
-  wait_for_index_build  = var.wait_for_index_build
-
-}
-
-
-module "application_vm" {
-  source = "../../modules/application_vm"
-
-  virtual_machine_name = var.virtual_machine_name
-
-  resource_group_name   = var.resource_group_name
-  location              = module.azure_setup.azurerm_resource_group_test_location
 
 }

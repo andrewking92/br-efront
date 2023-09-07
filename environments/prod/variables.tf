@@ -9,12 +9,12 @@ variable "project_id" {
 }
 
 variable "username" {
-  description = "Atlas Username"
+  description = "Atlas Project ID"
   type        = string
 }
 
 variable "password" {
-  description = "Atlas Password"
+  description = "Atlas Project ID"
   type        = string
 }
 
@@ -68,6 +68,26 @@ variable "region_1_priority" {
   type        = number
 }
 
+variable "region_2" {
+  description = "Region 2"
+  type        = string
+}
+
+variable "region_2_priority" {
+  description = "Region 2 Priority"
+  type        = number
+}
+
+variable "region_3" {
+  description = "Region 3"
+  type        = string
+}
+
+variable "region_3_priority" {
+  description = "Region 3 Priority"
+  type        = number
+}
+
 variable "resource_group_name" {
   description = "Azure Resource Group Name"
   type        = string
@@ -111,39 +131,4 @@ variable "request_message" {
 variable "is_manual_connection" {
   description = "Private Endpoint Service Connection Parameter"
   type        = bool
-}
-
-variable "search_index_name" {
-  description = "Atlas Search Index Name"
-  type        = string
-}
-
-variable "database_name" {
-  description = "Atlas Database Name"
-  type        = string
-}
-
-variable "collection_name" {
-  description = "Atlas Collection Name"
-  type        = string
-}
-
-variable "mappings_dynamic" {
-  description = "Set Dynamic Mappings"
-  type        = bool
-}
-
-variable "wait_for_index_build" {
-  description = "Atlas Search Index Wait for Build Completion"
-  type        = bool
-}
-
-variable "analyzer" {
-  description = "Atlas Search Index Analyzer"
-  type        = string
-}
-
-variable "search_analyzer" {
-  description = "Atlas Search Index Search Analyzer"
-  type        = string
 }
