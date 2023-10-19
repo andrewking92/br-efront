@@ -27,3 +27,8 @@ variable "subnet_prefixes" {
   description = "Azure Subnet Address Prefixes"
   type        = string
 }
+
+variable "tags" {
+  description = "Azure VNet Tags"
+  type        = map(string)
+}

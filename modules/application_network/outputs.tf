@@ -1,9 +1,4 @@
-output "azurerm_subnet_id" {
-  description = "Azure Subnet ID"
-  value       = azurerm_subnet.test.id
-}
-
-output "azurerm_network_interface_id" {
-  description = "Azure Subnet ID"
-  value       = azurerm_network_interface.test.id
+output "vnet_id" {
+  description = "The ID of the vNet."
+  value       = azurerm_virtual_network.test.id
 }
