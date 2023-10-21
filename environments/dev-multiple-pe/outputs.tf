@@ -13,6 +13,11 @@ output "application_network_vnet_ids" {
   value       = { for key, module_instance in module.application_network : key => module_instance.vnet_id }
 }
 
+output "application_network_subnet_ids" {
+  description = "The IDs of the subnets."
+  value       = { for key, module_instance in module.application_network : key => module_instance.subnet_id }
+}
+
 output "atlas_setup_organization_id" {
     value = module.atlas_setup.organization_id
 }

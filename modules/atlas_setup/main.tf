@@ -8,6 +8,12 @@ data "mongodbatlas_project" "test" {
 }
 
 
+resource "mongodbatlas_private_endpoint_regional_mode" "test" {
+  project_id = var.atlas_setup_configs.project_id
+  enabled    = true
+}
+
+
 resource "mongodbatlas_database_user" "test" {
   username           = var.atlas_setup_configs.username
   password           = var.atlas_setup_configs.password

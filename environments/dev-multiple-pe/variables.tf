@@ -62,13 +62,17 @@ variable "atlas_region_configs" {
 }
 
 # variable "atlas_private_endpoint_configs" {
-#   description = "Configuration for Atlas private endpoints."
-#   type = map(object({
-#     application_region    = string
-#     endpoint_name         = string
-#     request_message       = string
-#     is_manual_connection  = bool
-#   }))
+#   description = "Configuration for Atlas private endpoints across different regions"
+
+#   type = map(map(object({
+#     cloud_provider          = string
+#     resource_group_name     = string
+#     location                = string
+#     application_region      = string
+#     endpoint_name           = string
+#     request_message         = string
+#     is_manual_connection    = bool
+#   })))
 # }
 
 # variable "atlas_search_index_configs" {

@@ -30,6 +30,11 @@ module "application_network" {
 }
 
 
+# module "application_vm" {
+
+# }
+
+
 # module "azure_ad" {
 
 # }
@@ -44,11 +49,11 @@ module "atlas_setup" {
 
 module "advanced_cluster" {
   source = "../../modules/advanced_cluster"
-  depends_on              = [ module.atlas_setup ]
+  depends_on            = [ module.atlas_setup ]
 
-  project_id              = module.atlas_setup.project_id
-  atlas_cluster_configs   = var.atlas_cluster_configs
-  atlas_region_configs    = var.atlas_region_configs
+  project_id            = module.atlas_setup.project_id
+  atlas_cluster_configs = var.atlas_cluster_configs
+  atlas_region_configs  = var.atlas_region_configs
 
 }
 
@@ -57,21 +62,11 @@ module "private_endpoint" {
   source = "../../modules/private_endpoint"
   depends_on            = [ module.atlas_setup ]
 
-  for_each              = var.atlas_private_endpoint_configs
+  project_id            = module.atlas_setup.project_id
 
-  organization_id       = var.organization_id
-  project_id            = var.project_id
-  cloud_provider        = var.cloud_provider
-  application_region    = var.application_region
-  resource_group_name   = var.resource_group_name
-
-  location              = module.azure_setup.azurerm_resource_group_test_location
-  request_message       = var.request_message
-  is_manual_connection  = var.is_manual_connection
-  endpoint_name         = var.endpoint_name
-
-  subnet_id             = module.application_network.azurerm_subnet_id
-
+  # for_each = var.atlas_private_endpoint_configs
+  # regional_endpoint_configs = each.value
+  # module.application_network[each.key]
 }
 
 
