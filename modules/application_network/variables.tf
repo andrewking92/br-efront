@@ -1,34 +1,12 @@
-variable "resource_group_name" {
-  description = "Azure Resource Group Name"
-  type        = string
-}
-
-variable "location" {
-  description = "Azure Resource Group Location"
-  type        = string
-}
-
-variable "vnet_name" {
-  description = "Azure VNet Name"
-  type        = string
-}
-
-variable "vnet_address_space" {
-  description = "Azure VNet Address Space"
-  type        = string
-}
-
-variable "subnet_name" {
-  description = "Azure Subnet Name"
-  type        = string
-}
-
-variable "subnet_prefixes" {
-  description = "Azure Subnet Address Prefixes"
-  type        = string
-}
-
-variable "tags" {
-  description = "Azure VNet Tags"
-  type        = map(string)
+variable "azure_setup_configs" {
+  description = "Configuration for Azure regions"
+  type = map(object({
+    vnet_name             = string
+    vnet_address_space    = string
+    subnet_name           = string
+    subnet_prefixes       = string
+    location              = string
+    resource_group_name   = string
+    tags                  = map(string)
+  }))
 }

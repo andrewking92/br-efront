@@ -11,6 +11,16 @@ variable "azure_setup_configs" {
   }))
 }
 
+variable "azure_vm_configs" {
+  description = "Configuration for Azure VMs"
+  type = map(object({
+    virtual_machine_name  = string
+    public_key_file_path  = string
+    location              = string
+    resource_group_name   = string
+  }))
+}
+
 variable "atlas_setup_configs" {
   description = "Configurations for MongoDB Atlas setup"
   type = object({
@@ -61,29 +71,52 @@ variable "atlas_region_configs" {
   })
 }
 
-# variable "atlas_private_endpoint_configs" {
-#   description = "Configuration for Atlas private endpoints across different regions"
+variable "atlas_private_endpoint_regions" {
+  description = "Configuration for MongoDB Atlas PrivateLink Endpoints"
+  type = map(object({
+    cloud_provider      = string
+    application_region  = string
+  }))
+}
 
-#   type = map(map(object({
-#     cloud_provider          = string
-#     resource_group_name     = string
-#     location                = string
-#     application_region      = string
-#     endpoint_name           = string
-#     request_message         = string
-#     is_manual_connection    = bool
-#   })))
-# }
+variable "atlas_private_endpoint_configs_east" {
+  description = "Configuration for MongoDB Atlas Private Link Endpoints in East regions."
+  
+  type = map(object({
+    cloud_provider          : string
+    resource_group_name     : string
+    location                : string
+    application_region      : string
+    endpoint_name           : string
+    request_message         : string
+    is_manual_connection    : bool
+  }))
+}
 
-# variable "atlas_search_index_configs" {
-#   description = "Configuration for Atlas search index."
-#   type = map(object({
-#     search_index_name     = string
-#     database_name         = string
-#     collection_name       = string
-#     mappings_dynamic      = bool
-#     wait_for_index_build  = bool
-#     analyzer              = string
-#     search_analyzer       = string
-#   }))
-# }
+variable "atlas_private_endpoint_configs_west" {
+  description = "Configuration for MongoDB Atlas Private Link Endpoints in West regions."
+  
+  type = map(object({
+    cloud_provider          : string
+    resource_group_name     : string
+    location                : string
+    application_region      : string
+    endpoint_name           : string
+    request_message         : string
+    is_manual_connection    : bool
+  }))
+}
+
+variable "atlas_search_index_configs" {
+  description = "Configuration for Atlas search index"
+  type = object({
+    search_index_name     = string
+    cluster_name          = string
+    database_name         = string
+    collection_name       = string
+    mappings_dynamic      = bool
+    wait_for_index_build  = bool
+    analyzer              = string
+    search_analyzer       = string
+  })
+}

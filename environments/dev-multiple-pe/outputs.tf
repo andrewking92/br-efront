@@ -10,13 +10,30 @@ output "azure_setup_resource_group_locations" {
 
 output "application_network_vnet_ids" {
   description = "The IDs of the vNets."
-  value       = { for key, module_instance in module.application_network : key => module_instance.vnet_id }
+  value       = module.application_network.vnet_ids
 }
 
 output "application_network_subnet_ids" {
   description = "The IDs of the subnets."
-  value       = { for key, module_instance in module.application_network : key => module_instance.subnet_id }
+  value       = module.application_network.subnet_ids
 }
+
+output "application_network_network_interface_ids" {
+  description = "The IDs of the network interface ids."
+  value       = module.application_network.network_interface_ids
+}
+
+# output "application_vm_ids" {
+#   description = "Virtual Machine IDs from the application_vm module"
+#   value       = module.application_vm.vm_ids
+# }
+
+output "private_endpoint_atlas_private_endpoint_regions" {
+  description = "The IDs of the network interface ids."
+  value       = module.private_endpoint.atlas_private_endpoint_regions
+}
+
+
 
 output "atlas_setup_organization_id" {
     value = module.atlas_setup.organization_id

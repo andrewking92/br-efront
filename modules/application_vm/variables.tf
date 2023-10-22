@@ -1,24 +1,14 @@
-variable "virtual_machine_name" {
-  description = "Azure VM Name"
-  type        = string
+variable "network_interface_ids" {
+  description = "Map of Network Interface IDs"
+  type        = map(string)
 }
 
-variable "resource_group_name" {
-  description = "Azure Resource Group Name"
-  type        = string
-}
-
-variable "location" {
-  description = "Azure Resource Group Location"
-  type        = string
-}
-
-variable "public_key_file_path" {
-  description = "Azure Public Key File Path"
-  type        = string
-}
-
-variable "network_interface_id" {
-  description = "Azure Network Interface ID"
-  type        = string
+variable "azure_vm_configs" {
+  description = "Configuration for Azure VMs"
+  type = map(object({
+    virtual_machine_name  = string
+    public_key_file_path  = string
+    location              = string
+    resource_group_name   = string
+  }))
 }
