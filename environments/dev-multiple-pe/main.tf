@@ -14,6 +14,20 @@ module "azure_setup" {
 }
 
 
+# module "azure_ad" {
+
+# }
+
+
+module "azure_key_vault" {
+  source = "../../modules/azure_key_vault"
+  depends_on            = [ module.azure_setup ]
+
+  azure_key_vault_configs   = var.azure_key_vault_configs
+
+}
+
+
 module "application_network" {
   source = "../../modules/application_network"
   depends_on            = [ module.azure_setup ]
@@ -33,11 +47,6 @@ module "application_vm" {
 }
 
 
-# module "azure_ad" {
-
-# }
-
-
 module "atlas_setup" {
   source = "../../modules/atlas_setup"
   atlas_setup_configs  = var.atlas_setup_configs
@@ -45,9 +54,45 @@ module "atlas_setup" {
 }
 
 
+# module "role_mappings" {
+
+# }
+
+
+module "audit_log" {
+  source = "../../modules/audit_log"
+  depends_on            = [ module.atlas_setup ]
+
+  project_id            = module.atlas_setup.project_id
+  atlas_audit_config    = var.atlas_audit_config
+
+}
+
+
+module "encryption_at_rest" {
+  source = "../../modules/encryption_at_rest"
+  depends_on                 = [ module.atlas_setup ]
+
+  project_id                 = module.atlas_setup.project_id
+  key_identifer              = module.azure_key_vault.azure_key_vault_key_id
+  atlas_encryption_config    = var.atlas_encryption_config
+
+}
+
+
+module "database_user" {
+  source = "../../modules/database_user"
+  depends_on              = [ module.atlas_setup ]
+
+  project_id              = module.atlas_setup.project_id
+  atlas_db_user_config    = var.atlas_db_user_config
+
+}
+
+
 module "advanced_cluster" {
   source = "../../modules/advanced_cluster"
-  depends_on            = [ module.atlas_setup ]
+  depends_on            = [ module.encryption_at_rest ]
 
   project_id            = module.atlas_setup.project_id
   atlas_cluster_configs = var.atlas_cluster_configs
@@ -71,9 +116,21 @@ module "private_endpoint" {
 }
 
 
+# module "backup_compliance_policy" {
+#   source = "../../modules/backup_compliance_policy"
+#   depends_on            = [ module.advanced_cluster ]
+
+# }
+
+
+# module "database_alerts" {
+#   source = "../../modules/database_alerts"
+
+# }
+
+
 # module "search_index" {
 #   source = "../../modules/search_index"
-#   depends_on                  = [ module.database_and_collection ]
 
 #   project_id                  = module.atlas_setup.project_id
 #   atlas_search_index_configs  = var.atlas_search_index_configs

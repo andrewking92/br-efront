@@ -42,3 +42,8 @@ output "atlas_setup_organization_id" {
 output "atlas_setup_project_id" {
     value = module.atlas_setup.project_id
 }
+
+output "azure_setup_resource_group_ids" {
+    description = "Resource Group IDs from the azure_setup module."
+    value = module.azure_key_vault.azure_key_vault_key_id
+}

@@ -26,9 +26,6 @@ variable "atlas_setup_configs" {
   type = object({
     organization_id       = string
     project_id            = string
-    username              = string
-    password              = string
-    role_name             = string
   })
 }
 
@@ -118,5 +115,54 @@ variable "atlas_search_index_configs" {
     wait_for_index_build  = bool
     analyzer              = string
     search_analyzer       = string
+  })
+}
+
+variable "atlas_audit_config" {
+  description = "Configuration for Atlas Audit Log."
+  type = object({
+    audit_filter    = string
+    audit_authorization_success = bool
+    enabled         = bool
+  })
+}
+
+variable "atlas_db_user_config" {
+  description = "Configuration for Atlas DB User."
+  type = object({
+    username              = string
+    password              = string
+    role_name             = string
+    admin_db              = string
+  })
+}
+
+variable "atlas_encryption_config" {
+  description = "Configuration for Atlas Encryption at Rest."
+  type = object({
+    enabled                 = bool
+    client_id               = string
+    azure_environment       = string
+    subscription_id         = string
+    resource_group_name     = string
+    key_vault_name          = string
+    secret                  = string
+    tenant_id               = string
+  })
+}
+
+
+variable "azure_key_vault_configs" {
+  description = "Configuration for Azure Key Vault Encryption."
+  type = object({
+    name                        = string
+    location                    = string
+    resource_group_name         = string
+    tenant_id                   = string
+    object_id                   = string
+    sku_name                    = string
+    soft_delete_retention_days  = number
+    purge_protection_enabled    = bool
+    key_name                    = string
   })
 }
