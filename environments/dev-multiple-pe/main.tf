@@ -116,8 +116,8 @@ module "private_endpoint" {
 }
 
 
-# module "backup_compliance_policy" {
-#   source = "../../modules/backup_compliance_policy"
+# module "backup_policies" {
+#   source = "../../modules/backup_policies"
 #   depends_on            = [ module.advanced_cluster ]
 
 # }
@@ -126,12 +126,4 @@ module "private_endpoint" {
 # module "database_alerts" {
 #   source = "../../modules/database_alerts"
 
-# }
-
-
-# module "search_index" {
-#   source = "../../modules/search_index"
-
-#   project_id                  = module.atlas_setup.project_id
-#   atlas_search_index_configs  = var.atlas_search_index_configs
 # }

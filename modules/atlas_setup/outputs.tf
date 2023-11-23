@@ -5,5 +5,5 @@ output "organization_id" {
 
 output "project_id" {
   description = "Atlas Project ID"
-  value       = data.mongodbatlas_project.test.id
+  value       = mongodbatlas_project.test.id
 }

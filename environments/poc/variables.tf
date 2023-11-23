@@ -1,159 +1,168 @@
-variable "organization_id" {
-  description = "Atlas Organization ID"
-  type        = string
+variable "azure_setup_configs" {
+  description = "Configuration for Azure regions"
+  type = map(object({
+    vnet_name             = string
+    vnet_address_space    = string
+    subnet_name           = string
+    subnet_prefixes       = string
+    location              = string
+    resource_group_name   = string
+    tags                  = map(string)
+  }))
 }
 
-variable "project_id" {
-  description = "Atlas Project ID"
-  type        = string
+variable "azure_vm_configs" {
+  description = "Configuration for Azure VMs"
+  type = map(object({
+    virtual_machine_name  = string
+    public_key_file_path  = string
+    location              = string
+    resource_group_name   = string
+  }))
 }
 
-variable "username" {
-  description = "Atlas Username"
-  type        = string
+variable "atlas_setup_configs" {
+  description = "Configurations for MongoDB Atlas setup"
+  type = object({
+    organization_id       = string
+    project_name          = string
+  })
 }
 
-variable "password" {
-  description = "Atlas Password"
-  type        = string
+variable "atlas_cluster_configs" {
+  description = "Configurations for MongoDB Atlas cluster setup"
+  type = object({
+    cluster_name                 = string
+    mongo_db_major_version       = string
+    cluster_type                 = string
+    instance_size                = string
+    backup_enabled               = bool
+    pit_enabled                  = bool
+    retain_backups_enabled       = bool
+    disk_size_gb                 = number
+    fail_index_key_too_long      = bool
+    javascript_enabled           = bool
+    minimum_enabled_tls_protocol = string
+    no_table_scan                = bool
+    oplog_size_mb                = number
+  })
 }
 
-variable "role_name" {
-  description = "Atlas Database Role"
-  type        = string
+variable "atlas_region_configs" {
+  description = "Region specifications for the MongoDB Atlas Advanced Cluster"
+  type = object({
+    num_shards = number
+    region_configs = list(object({
+      electable_specs = object({
+        instance_size = string
+        node_count    = number
+      })
+      analytics_specs = object({
+        instance_size = string
+        node_count    = number
+      })
+      provider_name = string
+      priority      = number
+      region_name   = string
+    }))
+  })
 }
 
-variable "cluster_name" {
-  description = "Atlas Cluster Name"
-  type        = string
+variable "atlas_private_endpoint_regions" {
+  description = "Configuration for MongoDB Atlas PrivateLink Endpoints"
+  type = map(object({
+    cloud_provider      = string
+    application_region  = string
+  }))
 }
 
-variable "backup_enabled" {
-  description = "Backup Enabled"
-  type        = bool
+variable "atlas_private_endpoint_configs_east" {
+  description = "Configuration for MongoDB Atlas Private Link Endpoints in East regions."
+  
+  type = map(object({
+    cloud_provider          : string
+    resource_group_name     : string
+    location                : string
+    application_region      : string
+    endpoint_name           : string
+    request_message         : string
+    is_manual_connection    : bool
+  }))
 }
 
-variable "num_shards" {
-  description = "Number of Shards"
-  type        = number
+variable "atlas_private_endpoint_configs_west" {
+  description = "Configuration for MongoDB Atlas Private Link Endpoints in West regions."
+  
+  type = map(object({
+    cloud_provider          : string
+    resource_group_name     : string
+    location                : string
+    application_region      : string
+    endpoint_name           : string
+    request_message         : string
+    is_manual_connection    : bool
+  }))
 }
 
-variable "cloud_provider" {
-  description = "Cloud Provider"
-  type        = string
+variable "atlas_search_index_configs" {
+  description = "Configuration for Atlas search index"
+  type = object({
+    search_index_name     = string
+    cluster_name          = string
+    database_name         = string
+    collection_name       = string
+    mappings_dynamic      = bool
+    wait_for_index_build  = bool
+    analyzer              = string
+    search_analyzer       = string
+  })
 }
 
-variable "instance_size" {
-  description = "Cluster Tier Size"
-  type        = string
+variable "atlas_audit_config" {
+  description = "Configuration for Atlas Audit Log."
+  type = object({
+    audit_filter    = string
+    audit_authorization_success = bool
+    enabled         = bool
+  })
 }
 
-variable "cluster_type" {
-  description = "Cluster Type"
-  type        = string
+variable "atlas_db_user_config" {
+  description = "Configuration for Atlas DB User."
+  type = object({
+    username              = string
+    password              = string
+    role_name             = string
+    admin_db              = string
+  })
 }
 
-variable "node_count" {
-  description = "Cluster Node Count per Region"
-  type        = number
+variable "atlas_encryption_config" {
+  description = "Configuration for Atlas Encryption at Rest."
+  type = object({
+    enabled                 = bool
+    client_id               = string
+    azure_environment       = string
+    subscription_id         = string
+    resource_group_name     = string
+    key_vault_name          = string
+    secret                  = string
+    tenant_id               = string
+  })
 }
 
-variable "region_1" {
-  description = "Region 1"
-  type        = string
-}
 
-variable "region_1_priority" {
-  description = "Region 1 Priority"
-  type        = number
-}
-
-variable "resource_group_name" {
-  description = "Azure Resource Group Name"
-  type        = string
-}
-
-variable "vnet_name" {
-  description = "Azure VNet Name"
-  type        = string
-}
-
-variable "vnet_address_space" {
-  description = "Azure VNet Address Space"
-  type        = string
-}
-
-variable "subnet_name" {
-  description = "Azure Subnet Name"
-  type        = string
-}
-
-variable "subnet_prefixes" {
-  description = "Azure Subnet Address Prefixes"
-  type        = string
-}
-
-variable "application_region" {
-  description = "Private Link Endpoint Region"
-  type        = string
-}
-
-variable "endpoint_name" {
-  description = "Private Endpoint Name"
-  type        = string
-}
-
-variable "request_message" {
-  description = "Private Endpoint Service Connection Message"
-  type        = string
-}
-
-variable "is_manual_connection" {
-  description = "Private Endpoint Service Connection Parameter"
-  type        = bool
-}
-
-variable "search_index_name" {
-  description = "Atlas Search Index Name"
-  type        = string
-}
-
-variable "database_name" {
-  description = "Atlas Database Name"
-  type        = string
-}
-
-variable "collection_name" {
-  description = "Atlas Collection Name"
-  type        = string
-}
-
-variable "mappings_dynamic" {
-  description = "Set Dynamic Mappings"
-  type        = bool
-}
-
-variable "wait_for_index_build" {
-  description = "Atlas Search Index Wait for Build Completion"
-  type        = bool
-}
-
-variable "analyzer" {
-  description = "Atlas Search Index Analyzer"
-  type        = string
-}
-
-variable "search_analyzer" {
-  description = "Atlas Search Index Search Analyzer"
-  type        = string
-}
-
-variable "virtual_machine_name" {
-  description = "Azure VM Name"
-  type        = string
-}
-
-variable "public_key_file_path" {
-  description = "Azure Public Key File Path"
-  type        = string
+variable "azure_key_vault_configs" {
+  description = "Configuration for Azure Key Vault Encryption."
+  type = object({
+    name                        = string
+    location                    = string
+    resource_group_name         = string
+    tenant_id                   = string
+    object_id                   = string
+    sku_name                    = string
+    soft_delete_retention_days  = number
+    purge_protection_enabled    = bool
+    key_name                    = string
+  })
 }

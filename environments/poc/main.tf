@@ -7,108 +7,123 @@ provider "azurerm" {
 }
 
 
-module "atlas_setup" {
-  source = "../../modules/atlas_setup"
-
-  organization_id       = var.organization_id
-  project_id            = var.project_id
-
-  username              = var.username
-  password              = var.password
-  role_name             = var.role_name
+module "azure_setup" {
+  source = "../../modules/azure_setup"
+  azure_region_configs   = var.azure_setup_configs
 
 }
 
 
-module "azure_setup" {
-  source = "../../modules/azure_setup"
+# module "azure_ad" {
 
-  resource_group_name   = var.resource_group_name
+# }
+
+
+module "azure_key_vault" {
+  source = "../../modules/azure_key_vault"
+  depends_on            = [ module.azure_setup ]
+
+  azure_key_vault_configs   = var.azure_key_vault_configs
 
 }
 
 
 module "application_network" {
   source = "../../modules/application_network"
+  depends_on            = [ module.azure_setup ]
 
-  resource_group_name   = var.resource_group_name
-  location              = module.azure_setup.azurerm_resource_group_test_location
-
-  vnet_name             = var.vnet_name
-  vnet_address_space    = var.vnet_address_space
-  subnet_name           = var.subnet_name
-  subnet_prefixes       = var.subnet_prefixes
-
-}
-
-
-module "advanced_cluster" {
-  source = "../../modules/single_region_cluster"
-
-  organization_id       = var.organization_id
-  project_id            = var.project_id
-
-  cluster_name          = var.cluster_name
-  backup_enabled        = var.backup_enabled
-  num_shards            = var.num_shards
-  cloud_provider        = var.cloud_provider
-  instance_size         = var.instance_size
-  cluster_type          = var.cluster_type
-  node_count            = var.node_count
-  region_1              = var.region_1
-  region_1_priority     = var.region_1_priority
-
-}
-
-
-module "private_endpoint" {
-  source = "../../modules/private_endpoint"
-
-  organization_id       = var.organization_id
-  project_id            = var.project_id
-  cloud_provider        = var.cloud_provider
-  application_region    = var.application_region
-  resource_group_name   = var.resource_group_name
-
-  location              = module.azure_setup.azurerm_resource_group_test_location
-  request_message       = var.request_message
-  is_manual_connection  = var.is_manual_connection
-  endpoint_name         = var.endpoint_name
-
-  subnet_id             = module.application_network.azurerm_subnet_id
-
-}
-
-
-module "search_index" {
-  source = "../../modules/search_index"
-
-  organization_id       = var.organization_id
-  project_id            = var.project_id
-
-  search_index_name     = var.search_index_name
-  cluster_name          = var.cluster_name
-
-  analyzer              = var.analyzer
-  database_name         = var.database_name
-  collection_name       = var.collection_name
-
-  mappings_dynamic      = var.mappings_dynamic
-  search_analyzer       = var.search_analyzer
-
-  wait_for_index_build  = var.wait_for_index_build
+  azure_setup_configs   = var.azure_setup_configs
 
 }
 
 
 module "application_vm" {
   source = "../../modules/application_vm"
+  depends_on            = [ module.application_network ]
 
-  virtual_machine_name = var.virtual_machine_name
+  azure_vm_configs      = var.azure_vm_configs
+  network_interface_ids = module.application_network.network_interface_ids
 
-  resource_group_name   = var.resource_group_name
-  location              = module.azure_setup.azurerm_resource_group_test_location
-  public_key_file_path  = var.public_key_file_path
-
-  network_interface_id  = module.application_network.azurerm_network_interface_id
 }
+
+
+module "atlas_setup" {
+  source = "../../modules/atlas_setup"
+  atlas_setup_configs  = var.atlas_setup_configs
+
+}
+
+
+# module "role_mappings" {
+
+# }
+
+
+# module "audit_log" {
+#   source = "../../modules/audit_log"
+#   depends_on            = [ module.atlas_setup ]
+
+#   project_id            = module.atlas_setup.project_id
+#   atlas_audit_config    = var.atlas_audit_config
+
+# }
+
+
+# module "encryption_at_rest" {
+#   source = "../../modules/encryption_at_rest"
+#   depends_on                 = [ module.atlas_setup ]
+
+#   project_id                 = module.atlas_setup.project_id
+#   key_identifer              = module.azure_key_vault.azure_key_vault_key_id
+#   atlas_encryption_config    = var.atlas_encryption_config
+
+# }
+
+
+# module "database_user" {
+#   source = "../../modules/database_user"
+#   depends_on              = [ module.atlas_setup ]
+
+#   project_id              = module.atlas_setup.project_id
+#   atlas_db_user_config    = var.atlas_db_user_config
+
+# }
+
+
+# module "advanced_cluster" {
+#   source = "../../modules/advanced_cluster"
+#   depends_on            = [ module.encryption_at_rest ]
+
+#   project_id            = module.atlas_setup.project_id
+#   atlas_cluster_configs = var.atlas_cluster_configs
+#   atlas_region_configs  = var.atlas_region_configs
+
+# }
+
+
+# module "private_endpoint" {
+#   source = "../../modules/private_endpoint"
+#   depends_on            = [ module.atlas_setup ]
+
+#   project_id                          = module.atlas_setup.project_id
+#   subnet_ids                          = module.application_network.subnet_ids
+
+#   atlas_private_endpoint_regions      = var.atlas_private_endpoint_regions
+
+#   atlas_private_endpoint_configs_east = var.atlas_private_endpoint_configs_east
+#   atlas_private_endpoint_configs_west = var.atlas_private_endpoint_configs_west
+
+# }
+
+
+# module "backup_policies" {
+#   source = "../../modules/backup_policies"
+#   depends_on            = [ module.advanced_cluster ]
+
+# }
+
+
+# module "database_alerts" {
+#   source = "../../modules/database_alerts"
+
+# }
